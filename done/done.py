@@ -30,7 +30,6 @@ def resource_string(path):
     return data.decode("utf8")
 
 
-@XBlock.needs('i18n')
 class DoneXBlock(XBlock):
     """
     Show a toggle which lets students mark things as done.
@@ -38,13 +37,13 @@ class DoneXBlock(XBlock):
 
     done = Boolean(
         scope=Scope.user_state,
-        help=_("Is the student done?"),
+        help="Is the student done?",
         default=False
     )
 
     align = String(
         scope=Scope.settings,
-        help=_("Align left/right/center"),
+        help="Align left/right/center",
         default="left"
     )
 
@@ -83,8 +82,7 @@ class DoneXBlock(XBlock):
             {
                 'id': uuid.uuid1(0),
                 'done': self.done,
-            },
-            i18n_service=self.runtime.service(self, 'i18n')
+            }
         ))
         (unchecked_png, checked_png) = (
             self.runtime.local_resource_url(self, x) for x in
@@ -105,8 +103,7 @@ class DoneXBlock(XBlock):
         frag = Fragment()
         frag.add_content(resource_loader.render_django_template(
             'templates/studioview.html',
-            {},
-            i18n_service=self.runtime.service(self, 'i18n')
+            {}
         ))
         return frag
 
@@ -131,26 +128,26 @@ class DoneXBlock(XBlock):
 
     display_name = String(
         default="Completion", scope=Scope.settings,
-        help=_("Display name")
+        help="Display name"
     )
 
     start = DateTime(
         default=None, scope=Scope.settings,
-        help=_("ISO-8601 formatted string representing the start date of this assignment. We ignore this.")
+        help="ISO-8601 formatted string representing the start date of this assignment. We ignore this."
     )
 
     due = DateTime(
         default=None, scope=Scope.settings,
-        help=_("ISO-8601 formatted string representing the due date of this assignment. We ignore this.")
+        help="ISO-8601 formatted string representing the due date of this assignment. We ignore this."
     )
 
     weight = Float(
-        display_name=_("Problem Weight"),
-        help=_(
+        display_name="Problem Weight",
+        help=
             "Defines the number of points each problem is worth. "
             "If the value is not set, the problem is worth the sum of the "
             "option point values."
-        ),
+        ,
         values={"min": 0, "step": .1},
         scope=Scope.settings
     )
